@@ -1,5 +1,4 @@
 #EPMultipartURLPoster
-=====================
 
 Was looking into posting some http multipart messages but couldn't find a safe solution.
 
