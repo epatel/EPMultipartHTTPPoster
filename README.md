@@ -1,4 +1,4 @@
-#EPMultipartURLPoster
+#EPMultipartHTTPPoster
 
 Was looking into posting some http multipart messages but couldn't find a safe solution.
 
@@ -14,10 +14,10 @@ Not fully tested.
 Usage
 =====
 
-    EPMultipartURLPoster *multipartURLPoster = [[EPMultipartURLPoster alloc] initWithURL:[NSURL URLWithString:@"http://site.com/upload-file-script"]];
-    multipartURLPoster.delegate = self;
-    [multipartURLPoster addPart:[[EPMultipartPart alloc] initWithName:@"upload-name"
-                                                             filename:nil
-                                                             boundary:multipartURLPoster.boundary
-                                                                 path:@"/some/file/path.ext"]];
-    [multipartURLPoster start];
+    EPMultipartHTTPPoster *multipartHTTPPoster = [[EPMultipartHTTPPoster alloc] initWithURL:[NSURL URLWithString:@"http://site.com/upload-file-script"]];
+    multipartHTTPPoster.delegate = self;
+    [multipartHTTPPoster addPart:[[EPMultipartHTTPPart alloc] initWithName:@"upload-name"
+                                                                  filename:nil
+                                                                  boundary:multipartHTTPPoster.boundary
+                                                                      path:@"/some/file/path.ext"]];
+    [multipartHTTPPoster start];

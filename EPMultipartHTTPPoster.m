@@ -1,4 +1,4 @@
-#import "EPMultipartURLPoster.h"
+#import "EPMultipartHTTPPoster.h"
 
 // =============================================================================
 
@@ -57,7 +57,7 @@ static NSString *MIMETypeForExtension(NSString *extension)
 
 // =============================================================================
 
-@interface EPMultipartPart ()
+@interface EPMultipartHTTPPart ()
 
 @property (nonatomic) NSUInteger length;
 @property (nonatomic) NSUInteger bytesLeft;
@@ -66,7 +66,7 @@ static NSString *MIMETypeForExtension(NSString *extension)
 
 @end
 
-@implementation EPMultipartPart {
+@implementation EPMultipartHTTPPart {
     NSData *_headers;
     NSInputStream *_body;
     NSUInteger _headersLength;
@@ -167,6 +167,7 @@ static NSString *MIMETypeForExtension(NSString *extension)
         _bytesLeft -= readLength;
         return [NSData dataWithBytesNoCopy:buffer length:readLength freeWhenDone:YES];
     }
+    free(buffer);
     return nil;
 }
 
@@ -174,7 +175,13 @@ static NSString *MIMETypeForExtension(NSString *extension)
 
 // =============================================================================
 
-@implementation EPMultipartURLPoster {
+@interface EPMultipartHTTPPoster ()
+
+@property (nonatomic, readwrite) NSString *boundary;
+
+@end
+
+@implementation EPMultipartHTTPPoster {
     NSURL *_url;
     NSMutableArray *_parts;
     NSOutputStream *_producerStream;
@@ -199,7 +206,7 @@ static NSString *MIMETypeForExtension(NSString *extension)
 {
     NSUInteger totalLength = 0;
     
-    for (EPMultipartPart *part in _parts) {
+    for (EPMultipartHTTPPart *part in _parts) {
         totalLength += part.length;
     }
     
@@ -208,7 +215,7 @@ static NSString *MIMETypeForExtension(NSString *extension)
     return totalLength;
 }
 
-- (void)addPart:(EPMultipartPart*)part
+- (void)addPart:(EPMultipartHTTPPart*)part
 {
     [_parts addObject:part];
 }
@@ -264,7 +271,7 @@ static NSString *MIMETypeForExtension(NSString *extension)
             
         case NSStreamEventHasSpaceAvailable:
         {
-            EPMultipartPart *part = [_parts firstObject];
+            EPMultipartHTTPPart *part = [_parts firstObject];
             
             if (part || _nextData) {
                 
