@@ -21,3 +21,8 @@ Usage
                                                                   boundary:multipartHTTPPoster.boundary
                                                                       path:@"/some/file/path.ext"]];
     [multipartHTTPPoster start];
+
+License
+=======
+
+This code is distributed under the terms and conditions of the [MIT license](License.md).
